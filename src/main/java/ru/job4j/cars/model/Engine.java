@@ -9,8 +9,37 @@ public class Engine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(name = "serial_number")
-    private long serialNum;
-    private int power;
+    private int mileage;
     private int volume;
+    @Column(name = "fuel_type")
+    private String fuelType;
+
+    public static Engine of(String name, int mileage, int volume, String fuelType) {
+        Engine engine = new Engine();
+        engine.name = name;
+        engine.mileage = mileage;
+        engine.volume = volume;
+        engine.fuelType = fuelType;
+        return engine;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
 }

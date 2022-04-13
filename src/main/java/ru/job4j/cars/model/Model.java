@@ -14,6 +14,7 @@ public class Model {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -22,4 +23,16 @@ public class Model {
             inverseJoinColumns = {
                     @JoinColumn(name = "body_type_id", nullable = false, updatable = false)})
     private Set<BodyType> bodyTypes = new HashSet<>();
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Set<BodyType> getBodyTypes() {
+        return bodyTypes;
+    }
 }

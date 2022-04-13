@@ -13,6 +13,20 @@ public class Driver {
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "drivers")
+    @Column(name = "passport_id", unique = true)
+    private String passportId;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "drivers")
     private Set<Car> cars = new HashSet<>();
+
+    public static Driver of(String name, String passportId) {
+        Driver driver = new Driver();
+        driver.name = name;
+        driver.passportId = passportId;
+        return driver;
+    }
+
+    public Set<Car> getCars() {
+        return cars;
+    }
 }

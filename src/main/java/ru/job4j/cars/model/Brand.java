@@ -12,6 +12,19 @@ public class Brand {
     private int id;
     private String name;
 
+    @Transient
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Model> models = new HashSet<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Set<Model> getModels() {
+        return models;
+    }
 }

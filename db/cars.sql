@@ -1,0 +1,231 @@
+insert into body_type(name) values ('седан');
+insert into body_type(name) values ('хетчбэк');
+insert into body_type(name) values ('универсал');
+insert into body_type(name) values ('внедорожник');
+insert into body_type(name) values ('минивен');
+insert into body_type(name) values ('кроссовер');
+insert into body_type(name) values ('пикап');
+insert into body_type(name) values ('купе');
+
+insert into brand(name) values ('Toyota');
+insert into brand(name) values ('Kia');
+insert into brand(name) values ('Hyundai');
+insert into brand(name) values ('Lexus');
+insert into brand(name) values ('BMW');
+insert into brand(name) values ('Audi');
+insert into brand(name) values ('Mercedes');
+insert into brand(name) values ('Volkswagen');
+insert into brand(name) values ('Scoda');
+insert into brand(name) values ('Renault');
+insert into brand(name) values ('Honda');
+insert into brand(name) values ('Mitsubishi');
+insert into brand(name) values ('Subaru');
+insert into brand(name) values ('Chevrolet');
+insert into brand(name) values ('Ford');
+insert into brand(name) values ('Tesla');
+insert into brand(name) values ('Jeep');
+insert into brand(name) values ('Volvo');
+
+
+insert into model(name, brand_id) VALUES ('Camry', 1);
+insert into model(name, brand_id) VALUES ('Corolla', 1);
+insert into model(name, brand_id) VALUES ('Land Cruiser', 1);
+insert into model(name, brand_id) VALUES ('Yaris', 1);
+insert into model(name, brand_id) VALUES ('RAV4', 1);
+insert into model(name, brand_id) VALUES ('Mark II', 1);
+
+insert into model(name, brand_id) VALUES ('Rio/K2', 2);
+insert into model(name, brand_id) VALUES ('Optima/K5', 2);
+insert into model(name, brand_id) VALUES ('K7', 2);
+insert into model(name, brand_id) VALUES ('Cerato/K3', 2);
+insert into model(name, brand_id) VALUES ('Sorento', 2);
+insert into model(name, brand_id) VALUES ('Sportage', 2);
+
+insert into model(name, brand_id) VALUES ('Solaris/Accent', 3);
+insert into model(name, brand_id) VALUES ('Sonata', 3);
+insert into model(name, brand_id) VALUES ('Grandeur', 3);
+insert into model(name, brand_id) VALUES ('Avante/Elantra', 3);
+insert into model(name, brand_id) VALUES ('Santa Fe', 3);
+insert into model(name, brand_id) VALUES ('Tucson', 3);
+
+insert into model(name, brand_id) VALUES ('LS', 4);
+insert into model(name, brand_id) VALUES ('LX', 4);
+insert into model(name, brand_id) VALUES ('GS', 4);
+
+insert into model(name, brand_id) VALUES ('3', 5);
+insert into model(name, brand_id) VALUES ('4', 5);
+insert into model(name, brand_id) VALUES ('5', 5);
+insert into model(name, brand_id) VALUES ('7', 5);
+insert into model(name, brand_id) VALUES ('X5', 5);
+insert into model(name, brand_id) VALUES ('X6', 5);
+
+insert into model(name, brand_id) VALUES ('A3', 6);
+insert into model(name, brand_id) VALUES ('A6', 6);
+insert into model(name, brand_id) VALUES ('A7', 6);
+insert into model(name, brand_id) VALUES ('Q7', 6);
+insert into model(name, brand_id) VALUES ('A8', 6);
+insert into model(name, brand_id) VALUES ('Q8', 6);
+
+insert into model(name, brand_id) VALUES ('A', 7);
+insert into model(name, brand_id) VALUES ('C', 7);
+insert into model(name, brand_id) VALUES ('E', 7);
+insert into model(name, brand_id) VALUES ('S', 7);
+insert into model(name, brand_id) VALUES ('G', 7);
+insert into model(name, brand_id) VALUES ('ML', 7);
+
+insert into model(name, brand_id) VALUES ('Polo', 8);
+insert into model(name, brand_id) VALUES ('Passat', 8);
+insert into model(name, brand_id) VALUES ('Golf', 8);
+insert into model(name, brand_id) VALUES ('Tuareg', 8);
+insert into model(name, brand_id) VALUES ('Juke', 8);
+
+insert into model(name, brand_id) VALUES ('Octavia', 9);
+insert into model(name, brand_id) VALUES ('Superb', 9);
+insert into model(name, brand_id) VALUES ('Kodiaq', 9);
+
+insert into model(name, brand_id) VALUES ('Duster', 10);
+insert into model(name, brand_id) VALUES ('Sandero', 10);
+insert into model(name, brand_id) VALUES ('Logan', 10);
+insert into model(name, brand_id) VALUES ('Arkana', 10);
+
+insert into model(name, brand_id) VALUES ('Accord', 11);
+insert into model(name, brand_id) VALUES ('Civic', 11);
+insert into model(name, brand_id) VALUES ('Jazz', 11);
+insert into model(name, brand_id) VALUES ('CR-V', 11);
+insert into model(name, brand_id) VALUES ('City', 11);
+
+insert into model(name, brand_id) VALUES ('Pajero', 12);
+insert into model(name, brand_id) VALUES ('Lancer', 12);
+insert into model(name, brand_id) VALUES ('Outlander', 12);
+
+insert into model(name, brand_id) VALUES ('Impreza', 13);
+insert into model(name, brand_id) VALUES ('Forester', 13);
+insert into model(name, brand_id) VALUES ('Outback', 13);
+insert into model(name, brand_id) VALUES ('Legacy', 13);
+
+insert into model(name, brand_id) VALUES ('Cobalt', 14);
+insert into model(name, brand_id) VALUES ('Cruze', 14);
+insert into model(name, brand_id) VALUES ('Captiva', 14);
+insert into model(name, brand_id) VALUES ('Malibu', 14);
+insert into model(name, brand_id) VALUES ('Spark', 14);
+insert into model(name, brand_id) VALUES ('Tahoe', 14);
+
+insert into model(name, brand_id) VALUES ('Bronco', 15);
+insert into model(name, brand_id) VALUES ('Focus', 15);
+insert into model(name, brand_id) VALUES ('Mustang', 15);
+insert into model(name, brand_id) VALUES ('Fiesta', 15);
+insert into model(name, brand_id) VALUES ('Ranger', 15);
+insert into model(name, brand_id) VALUES ('Raptor', 15);
+
+insert into model(name, brand_id) VALUES ('Model 3', 16);
+insert into model(name, brand_id) VALUES ('Model X', 16);
+insert into model(name, brand_id) VALUES ('Model S', 16);
+insert into model(name, brand_id) VALUES ('Model Y', 16);
+insert into model(name, brand_id) VALUES ('Cybertruck', 16);
+insert into model(name, brand_id) VALUES ('Roadster', 16);
+
+insert into model(name, brand_id) VALUES ('Wrangler', 17);
+insert into model(name, brand_id) VALUES ('Compass', 17);
+insert into model(name, brand_id) VALUES ('Patriot', 17);
+insert into model(name, brand_id) VALUES ('Grand Cherokee', 17);
+
+insert into model(name, brand_id) VALUES ('XC90', 18);
+insert into model(name, brand_id) VALUES ('S60', 18);
+insert into model(name, brand_id) VALUES ('V40', 18);
+
+insert into models_body_types(model_id, body_type_id) VALUES (1, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (2, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (3, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (4, 5);
+insert into models_body_types(model_id, body_type_id) VALUES (5, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (6, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (7, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (7, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (8, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (9, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (10, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (11, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (12, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (13, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (14, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (15, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (16, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (17, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (18, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (19, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (20, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (21, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (22, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (23, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (24, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (25, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (26, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (27, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (28, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (29, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (29, 3);
+insert into models_body_types(model_id, body_type_id) VALUES (30, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (31, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (32, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (33, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (34, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (35, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (36, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (37, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (38, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (39, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (40, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (41, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (41, 3);
+insert into models_body_types(model_id, body_type_id) VALUES (42, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (43, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (44, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (45, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (46, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (47, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (48, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (49, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (50, 5);
+insert into models_body_types(model_id, body_type_id) VALUES (51, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (52, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (53, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (54, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (55, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (56, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (57, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (58, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (59, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (60, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (60, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (60, 3);
+insert into models_body_types(model_id, body_type_id) VALUES (61, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (62, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (63, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (63, 3);
+insert into models_body_types(model_id, body_type_id) VALUES (64, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (65, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (66, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (67, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (68, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (69, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (70, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (71, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (72, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (72, 8);
+insert into models_body_types(model_id, body_type_id) VALUES (73, 2);
+insert into models_body_types(model_id, body_type_id) VALUES (74, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (75, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (76, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (77, 6);
+insert into models_body_types(model_id, body_type_id) VALUES (78, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (79, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (80, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (81, 8);
+insert into models_body_types(model_id, body_type_id) VALUES (82, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (83, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (84, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (85, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (86, 4);
+insert into models_body_types(model_id, body_type_id) VALUES (87, 1);
+insert into models_body_types(model_id, body_type_id) VALUES (88, 1);
+
