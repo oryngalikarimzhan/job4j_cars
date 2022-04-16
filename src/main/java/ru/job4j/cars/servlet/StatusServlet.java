@@ -11,8 +11,6 @@ import java.io.IOException;
 public class StatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println(req.getParameter("id"));
-        System.out.println(req.getParameter("sold"));
         if (req.getParameter("sold").equals("false")) {
             Post post = PsqlStore.instOf().findPostById(Integer.parseInt(req.getParameter("id")));
             post.setStatus(true);

@@ -51,7 +51,7 @@ public class PsqlStore implements Store, AutoCloseable {
         Post rsl = null;
         if (id == 0) {
             rsl = create(post);
-        } else if (findPostById(id) != null) {
+        } else {
             rsl = update(post);
         }
         return rsl;
@@ -66,20 +66,35 @@ public class PsqlStore implements Store, AutoCloseable {
             } else {
                 session.persist(post);
             }
-            return post;
+            return (Post) session.createQuery("from Post order by id desc")
+                    .setMaxResults(1).uniqueResult();
         });
     }
 
     private Post update(Post post) {
         return this.tx(session -> {
             session.update(post);
-            return post;
+            return session.get(Post.class, post.getId());
         });
     }
 
     @Override
     public Post findPostById(int id) {
-        return this.tx(session -> session.get(Post.class, id));
+        return (Post) this.tx(
+                session -> session.createQuery(
+                        "select distinct p "
+                        + "from Post p "
+                        + "join fetch p.user "
+                        + "left join fetch p.image "
+                        + "join fetch p.car c "
+                        + "join fetch c.engine "
+                        + "join fetch c.bodyType "
+                        + "join fetch c.brand "
+                        + "join fetch c.model "
+                        + "where p.id = :id")
+                .setParameter("id", id)
+                .getSingleResult()
+        );
     }
 
     @Override
@@ -87,40 +102,47 @@ public class PsqlStore implements Store, AutoCloseable {
         return this.tx(
                 session -> session.createQuery(
                         "select distinct p "
-                                + "from ru.job4j.cars.model.Post p "
-                                + "join fetch p.user "
-                                + "join fetch p.car c "
-                                + "left join fetch c.brand "
-                                + "left join fetch c.model "
-                                + "left join fetch c.bodyType "
-                                + "left join fetch c.engine "
-                                + "where user_id = :id "
-                                + "order by p.id asc"
+                        + "from ru.job4j.cars.model.Post p "
+                        + "join fetch p.user "
+                        + "left join fetch p.image "
+                        + "join fetch p.car c "
+                        + "join fetch c.brand "
+                        + "left join fetch c.model "
+                        + "left join fetch c.bodyType "
+                        + "left join fetch c.engine "
+                        + "where user_id = :id "
+                        + "order by p.id asc"
                 ).setParameter("id", id)
-                        .list()
+                .list()
         );
     }
 
     @Override
     public Collection<Post> findAllPosts() {
         return this.tx(
-                session -> session.createQuery("select p from ru.job4j.cars.model.Post p "
+                session -> session.createQuery(
+                        "select distinct p "
+                        + "from Post p "
                         + "left join fetch p.user "
+                        + "left join fetch p.image "
                         + "left join fetch p.car c "
                         + "left join fetch c.brand "
                         + "left join fetch c.model "
                         + "left join fetch c.bodyType "
                         + "left join fetch c.engine "
                         + "order by p.id asc")
-                        .list()
+                .list()
         );
     }
 
     @Override
     public Collection<Post> findAllActivePosts() {
         return this.tx(
-                session -> session.createQuery("select p from ru.job4j.cars.model.Post p "
+                session -> session.createQuery(
+                        "select distinct p "
+                        + "from Post p "
                         + "left join fetch p.user "
+                        + "left join fetch p.image "
                         + "left join fetch p.car c "
                         + "left join fetch c.brand "
                         + "left join fetch c.model "
@@ -128,7 +150,7 @@ public class PsqlStore implements Store, AutoCloseable {
                         + "left join fetch c.engine "
                         + "where sold = false "
                         + "order by p.id asc")
-                        .list()
+                .list()
         );
     }
 
@@ -203,7 +225,7 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public Collection<Brand> findAllBrands() {
         return this.tx(
-                session -> session.createQuery("from ru.job4j.cars.model.Brand order by id asc")
+                session -> session.createQuery("from Brand order by id asc")
                         .list()
         );
     }
@@ -228,7 +250,7 @@ public class PsqlStore implements Store, AutoCloseable {
         return this.tx(
                 session -> session.createQuery(
                         "select distinct m "
-                                + "from ru.job4j.cars.model.Model m "
+                                + "from Model m "
                                 + "join fetch m.brand "
                                 + "join fetch m.bodyTypes "
                                 + "where brand_id = :id "
@@ -332,7 +354,7 @@ public class PsqlStore implements Store, AutoCloseable {
 
     @Override
     public User findByEmail(String email) {
-        return (User) this.tx(session -> session.createQuery("from ru.job4j.cars.model.User where email=:email")
+        return (User) this.tx(session -> session.createQuery("from User where email=:email")
                 .setParameter("email", email).uniqueResult()
         );
     }

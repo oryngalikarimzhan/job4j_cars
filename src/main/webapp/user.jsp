@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
@@ -61,10 +63,10 @@
                                         <img src="<c:url value='/download.do?id=${user.email}'/>"
                                              width="200px" height="200px"/>
                                         <br>
-                                        <a href='<c:url value="/photoDelete.do?id=${user.email}"/>'>
+                                        <a href='<c:url value="/photoDelete.do?img=${user.email}"/>'>
                                             <i class="fa fa-trash"></i>
                                         </a>
-                                        <a href='<c:url value="/photoUpload.jsp?id=${user.email}"/>'>
+                                        <a href='<c:url value="/photoUpload.jsp?imgName=${user.email}"/>'>
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>
@@ -87,28 +89,17 @@
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th scope="col" style="width: 350px">Фото</th>
-                                <th scope="col" style="width: 180px">Характеристики</th>
-                                <th scope="col" style="width: 300px">Описание</th>
-                                <th scope="col">Цена</th>
-                                <th scope="col">Статус</th>
-                                <th scope="col">Действия</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col" style="width: 180px">Характеристики</th>
+                                    <th scope="col" style="width: 300px">Описание</th>
+                                    <th scope="col">Цена</th>
+                                    <th scope="col">Статус</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${posts}" var="post">
                                 <tr>
-                                    <td>
-                                        <img src="<c:url value='/download.do?id=${post.id}'/>" width="100%"/>
-                                        <br>
-                                        <a href='<c:url value="/photoDelete.do?id=${post.id}"/>'>
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                        <a href='<c:url value="/photoUpload.jsp?id=${post.id}"/>'>
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                    </td>
                                     <td>
                                         <c:out value="Марка - ${post.car.brand.name}"/>
                                         <br>
@@ -161,6 +152,29 @@
                                             </a>
                                         </c:if>
 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <c:forEach items="${post.image}" var="image" varStatus="loop">
+                                            <img src="<c:url value='/download.do?id=${image}'/>" width="200px"/>
+                                            <a href='<c:url value="/photoDelete.do?img=${image}&postId=${post.id}"/>'>
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <c:if test="${loop.last}">
+                                                <c:set var="name" value="${fn:substringBefore(image, '.')}"/>
+                                                <c:set var="position" value="${fn:substringAfter(name, '-')}"/>
+                                                <fmt:parseNumber var = "intPosition" type = "number" value = "${position}" />
+                                                <c:set var="nextPosition" value="${intPosition  + 1}"/>
+                                                <c:set var="nextImage"  value="${fn:replace(name, position, nextPosition)}"/>
+                                                <a href='<c:url value="/photoUpload.jsp?imgName=${nextImage}&postId=${post.id}"/>'>
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                            </c:if>
+                                        </c:forEach>
+                                        <br>
+                                        <br>
+                                        <br>
                                     </td>
                                 </tr>
                             </c:forEach>

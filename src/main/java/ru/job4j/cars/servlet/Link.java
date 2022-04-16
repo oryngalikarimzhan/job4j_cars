@@ -15,7 +15,6 @@ public class Link {
                 )
         )) {
             cfg.load(io);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

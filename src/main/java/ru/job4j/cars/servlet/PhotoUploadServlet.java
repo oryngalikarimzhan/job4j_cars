@@ -4,6 +4,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import ru.job4j.cars.model.Post;
+import ru.job4j.cars.store.PsqlStore;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -34,10 +36,17 @@ public class PhotoUploadServlet extends HttpServlet {
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     String fileName = item.getName();
-                    File file = new File(folder + File.separator + req.getParameter("id") + '.'
-                            + fileName.substring(fileName.lastIndexOf('.') + 1));
+                    String newName = req.getParameter("img") + '.'
+                            + fileName.substring(fileName.lastIndexOf('.') + 1);
+                    File file = new File(folder + File.separator + newName);
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
+                    }
+                    String postId = req.getParameter("id");
+                    if (postId != null) {
+                        Post post = PsqlStore.instOf().findPostById(Integer.parseInt(postId));
+                        post.addImage(newName);
+                        PsqlStore.instOf().save(post);
                     }
                 }
             }

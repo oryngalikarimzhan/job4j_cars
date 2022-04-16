@@ -7,14 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        PsqlStore.instOf().deletePost(Integer.valueOf(id));
+        int id = Integer.parseInt(req.getParameter("id"));
+        List<String> images = PsqlStore.instOf().findPostById(id).getImage();
+        req.setAttribute("images", images);
         req.getRequestDispatcher("/photoDelete.do").include(req, resp);
+        PsqlStore.instOf().deletePost(Integer.valueOf(id));
         resp.sendRedirect(req.getHeader("referer"));
-
     }
 }

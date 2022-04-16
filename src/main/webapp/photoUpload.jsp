@@ -24,13 +24,14 @@
     </head>
     <body>
         <%
-            String id = request.getParameter("id");
+            String imgName = request.getParameter("imgName");
             String head = request.getHeader("referer");
+            String postId = request.getParameter("postId");
         %>
         <div class="container">
             <h2>Upload photo</h2>
 
-            <form action="<%=request.getContextPath()%>/photoUpload.do?id=<%=id%>&ref=<%=head%>"
+            <form action="<%=request.getContextPath()%>/photoUpload.do?id=<%=postId%>&ref=<%=head%>&img=<%=imgName%>"
                   id="form-photo"
                   method="post"
                   enctype="multipart/form-data">

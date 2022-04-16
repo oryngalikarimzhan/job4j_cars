@@ -20,27 +20,11 @@
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-    <script>
-        function validate() {
-            /*document
-                .querySelector('#form-candidate-name')
-                .onsubmit = function (evt) {
-                if ($('#candidate-name').val() === '') {
-                    alert($('#candidate-name').attr('title'));
-                    evt.preventDefault();
-                }
-                if ($('select option:selected').val() === '---Не выбран---') {
-                    alert($('#city-selector').attr('title'));
-                    evt.preventDefault();
-                }
-            }*/
-        }
-    </script>
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $.ajax({
                 type: 'GET',
@@ -110,141 +94,150 @@
                 });
             });
         });
-
     </script>
     <title>Авто</title>
 </head>
-<body>
-<div class="container pt-3">
-    <div class="row">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная страница</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post.do">Добавить обьявление</a>
-            </li>
-            <c:if test="${user != null}">
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="<%=request.getContextPath()%>/user.do"><c:out value="${user.name}"/></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
-                </li>
-            </c:if>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Новое обьявление
+    <body>
+        <div class="container pt-3">
+            <div class="row">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная страница</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/post.do">Добавить обьявление</a>
+                    </li>
+                    <c:if test="${user != null}">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="<%=request.getContextPath()%>/user.do"><c:out value="${user.name}"/></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
+                        </li>
+                    </c:if>
+                </ul>
             </div>
-            <div class="card-body">
-                <form action="<%=request.getContextPath()%>/post.do"
-                      id="form-candidate-name"
-                      method="post">
-                    <div class="form-group">
-                        <label for="brand-selector">Марка</label>
-                        <select class="form-control" id="brand-selector" name="brand" title="Выберите марку авто">
-                            <option>---Не выбран---</option>
-                        </select>
+            <div class="row">
+                <div class="card" style="width: 100%">
+                    <div class="card-header">
+                        Новое обьявление
                     </div>
-                    <div class="form-group">
-                        <label for="model-selector">Модель</label>
-                        <select class="form-control" id="model-selector" name="model" title="Выберите модель марки">
-                            <option>---Не выбран---</option>
-                        </select>
+                    <div class="card-body">
+                        <form id="form-post" action="<%=request.getContextPath()%>/post.do"
+                              method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="brand-selector">Марка</label>
+                                <select class="form-control"
+                                        id="brand-selector"
+                                        name="brand"
+                                        title="Выберите марку авто">
+                                    <option>---Не выбран---</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="model-selector">Модель</label>
+                                <select class="form-control"
+                                        id="model-selector"
+                                        name="model"
+                                        title="Выберите модель марки">
+                                    <option>---Не выбран---</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="body-type-selector">Кузов</label>
+                                <select class="form-control" id="body-type-selector" name="body-type">
+                                    <option>---Не выбран---</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Год</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="year"
+                                       id="car-year"
+                                       title="Введите год сборки автомобиля">
+                            </div>
+                            <div class="form-group">
+                                <label>Пробег</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="mileage"
+                                       id="mileage"
+                                       placeholder="В километрах"
+                                       title="Введите пробег автомобиля">
+                            </div>
+                            <div class="form-group">
+                                <label>Обьем двигателя</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="volume"
+                                       id="volume"
+                                       placeholder="В см/куб"
+                                       title="Введите обьем двигателя">
+                            </div>
+                            <div class="form-group">
+                                <label>Тип топлива</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="fuel"
+                                       id="fuel-type"
+                                       placeholder="Введите один вариантов: Бензин, Дизель, Газ">
+                            </div>
+                            <div class="form-group">
+                                <label>Модель двигателя</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="engine"
+                                       id="engine-name"
+                                       value="Не известно">
+                            </div>
+                            <div class="form-group">
+                                <label>VIN автомобиля</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="serial-number"
+                                       id="serial-number">
+                            </div>
+                            <div class="form-group">
+                                <label>Регистрационный номер автомобиля</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="reg-number"
+                                       id="reg-number"
+                                       placeholder="Опционально">
+                            </div>
+                            <div class="form-group">
+                                <label>Описание</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="description"
+                                       id="description">
+                            </div>
+                            <div class="form-group">
+                                <label>Цена</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="price"
+                                       id="price">
+                            </div>
+                            <div class="form-group">
+                                <label>Контакты</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="phone"
+                                       id="phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Загрузить фото</label>
+                                <br>
+                                <input type="file" id="file" name="file" multiple accept="image/*"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="body-type-selector">Кузов</label>
-                        <select class="form-control" id="body-type-selector" name="body-type" title="Выберите кузов модели">
-                            <option>---Не выбран---</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Год</label>
-                        <input type="text"
-                               class="form-control"
-                               name="year"
-                               id="car-year"
-                               title="Введите год сборки автомобиля">
-                    </div>
-                    <div class="form-group">
-                        <label>Пробег</label>
-                        <input type="text"
-                               class="form-control"
-                               name="mileage"
-                               id="mileage"
-                               placeholder="В километрах"
-                               title="Введите пробег автомобиля">
-                    </div>
-                    <div class="form-group">
-                        <label>Обьем двигателя</label>
-                        <input type="text"
-                               class="form-control"
-                               name="volume"
-                               id="volume"
-                               placeholder="В см/куб"
-                               title="Введите обьем двигателя">
-                    </div>
-                    <div class="form-group">
-                        <label>Тип топлива</label>
-                        <input type="text"
-                               class="form-control"
-                               name="fuel"
-                               id="fuel-type"
-                               placeholder="Введите один вариантов: Бензин, Дизель, Газ">
-                    </div>
-                    <div class="form-group">
-                        <label>Модель двигателя</label>
-                        <input type="text"
-                               class="form-control"
-                               name="engine"
-                               id="engine-name"
-                               value="Не известно">
-                    </div>
-                    <div class="form-group">
-                        <label>VIN автомобиля</label>
-                        <input type="text"
-                               class="form-control"
-                               name="serial-number"
-                               id="serial-number">
-                    </div>
-                    <div class="form-group">
-                        <label>Регистрационный номер автомобиля</label>
-                        <input type="text"
-                               class="form-control"
-                               name="reg-number"
-                               id="reg-number"
-                               placeholder="Опционально">
-                    </div>
-                    <div class="form-group">
-                        <label>Описание</label>
-                        <input type="text"
-                               class="form-control"
-                               name="description"
-                               id="description">
-                    </div>
-                    <div class="form-group">
-                        <label>Цена</label>
-                        <input type="text"
-                               class="form-control"
-                               name="price"
-                               id="price">
-                    </div>
-                    <div class="form-group">
-                        <label>Контакты</label>
-                        <input type="text"
-                               class="form-control"
-                               name="phone"
-                               id="phone">
-                    </div>
-                    <button type="submit" class="btn btn-primary" onclick="validate()">Сохранить</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</body>
+    </body>
 </html>
