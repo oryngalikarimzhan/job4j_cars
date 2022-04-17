@@ -7,7 +7,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.criterion.Restrictions;
 import ru.job4j.cars.model.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -74,7 +73,7 @@ public class PsqlStore implements Store, AutoCloseable {
     private Post update(Post post) {
         return this.tx(session -> {
             session.update(post);
-            return session.get(Post.class, post.getId());
+            return findPostById(post.getId());
         });
     }
 
@@ -84,16 +83,12 @@ public class PsqlStore implements Store, AutoCloseable {
                 session -> session.createQuery(
                         "select distinct p "
                         + "from Post p "
-                        + "join fetch p.user "
                         + "left join fetch p.image "
                         + "join fetch p.car c "
-                        + "join fetch c.engine "
-                        + "join fetch c.bodyType "
-                        + "join fetch c.brand "
-                        + "join fetch c.model "
+                        + "left join fetch c.drivers "
                         + "where p.id = :id")
                 .setParameter("id", id)
-                .getSingleResult()
+                .uniqueResult()
         );
     }
 
@@ -102,14 +97,10 @@ public class PsqlStore implements Store, AutoCloseable {
         return this.tx(
                 session -> session.createQuery(
                         "select distinct p "
-                        + "from ru.job4j.cars.model.Post p "
-                        + "join fetch p.user "
+                        + "from Post p "
                         + "left join fetch p.image "
                         + "join fetch p.car c "
-                        + "join fetch c.brand "
-                        + "left join fetch c.model "
-                        + "left join fetch c.bodyType "
-                        + "left join fetch c.engine "
+                        + "left join fetch c.drivers "
                         + "where user_id = :id "
                         + "order by p.id asc"
                 ).setParameter("id", id)
@@ -123,13 +114,9 @@ public class PsqlStore implements Store, AutoCloseable {
                 session -> session.createQuery(
                         "select distinct p "
                         + "from Post p "
-                        + "left join fetch p.user "
                         + "left join fetch p.image "
-                        + "left join fetch p.car c "
-                        + "left join fetch c.brand "
-                        + "left join fetch c.model "
-                        + "left join fetch c.bodyType "
-                        + "left join fetch c.engine "
+                        + "join fetch p.car c "
+                        + "left join fetch c.drivers "
                         + "order by p.id asc")
                 .list()
         );
@@ -141,13 +128,9 @@ public class PsqlStore implements Store, AutoCloseable {
                 session -> session.createQuery(
                         "select distinct p "
                         + "from Post p "
-                        + "left join fetch p.user "
                         + "left join fetch p.image "
-                        + "left join fetch p.car c "
-                        + "left join fetch c.brand "
-                        + "left join fetch c.model "
-                        + "left join fetch c.bodyType "
-                        + "left join fetch c.engine "
+                        + "join fetch p.car c "
+                        + "left join fetch c.drivers "
                         + "where sold = false "
                         + "order by p.id asc")
                 .list()
@@ -213,20 +196,41 @@ public class PsqlStore implements Store, AutoCloseable {
         );
     }
 
+    @Override
+    public Category findCategoryById(int id) {
+        return this.tx(session -> session.get(Category.class, id));
+    }
+
+
+    @Override
+    public Collection<Category> findAllCategories() {
+        return this.tx(
+                session -> session.createQuery("from Category order by id asc")
+                        .list()
+        );
+    }
+
     /**
      * Brand's database methods
      * */
 
     @Override
     public Brand findBrandById(int id) {
-        return this.tx(session -> session.get(Brand.class, id));
+        return (Brand) this.tx(session -> session.createQuery(
+                        "from Brand where id = :id"
+        ).setParameter("id", id)
+                .uniqueResult());
     }
 
+
     @Override
-    public Collection<Brand> findAllBrands() {
+    public Collection<Brand> findBrandsByCategoryId(int id) {
         return this.tx(
-                session -> session.createQuery("from Brand order by id asc")
-                        .list()
+                session -> session.createQuery(
+                        "select b from Brand b where b.id in ("
+                                + "select distinct m.brand.id from Model m where category_id = :id)"
+                ).setParameter("id", id)
+                .list()
         );
     }
 
@@ -246,17 +250,18 @@ public class PsqlStore implements Store, AutoCloseable {
     }
 
     @Override
-    public Collection<Model> findModelsByBrandId(int id) {
+    public Collection<Model> findModelsByBrandIdAndCategoryId(int brandId, int categoryId) {
         return this.tx(
                 session -> session.createQuery(
                         "select distinct m "
                                 + "from Model m "
-                                + "join fetch m.brand "
                                 + "join fetch m.bodyTypes "
-                                + "where brand_id = :id "
+                                + "where brand_id = :brandId "
+                                + "and category_id = :categoryId "
                                 + "order by m.id asc"
-                ).setParameter("id", id)
-                        .list()
+                ).setParameter("brandId", brandId)
+                .setParameter("categoryId", categoryId)
+                .list()
         );
     }
 
@@ -354,7 +359,7 @@ public class PsqlStore implements Store, AutoCloseable {
 
     @Override
     public User findByEmail(String email) {
-        return (User) this.tx(session -> session.createQuery("from User where email=:email")
+        return (User) this.tx(session -> session.createQuery("from User where email = :email")
                 .setParameter("email", email).uniqueResult()
         );
     }
@@ -374,6 +379,19 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void close() throws Exception {
         StandardServiceRegistryBuilder.destroy(registry);
+    }
+
+    public static void main(String[] args) {
+        Post post = PsqlStore.instOf().findPostById(30);
+        post.setStatus(true);
+        post = PsqlStore.instOf().save(post);
+        System.out.println(post.getCar().getModel());
+        System.out.println(post.getCar().getCategory());
+        System.out.println(post.getCar().getBrand());
+        System.out.println(post.getCar().getEngine());
+        System.out.println(post.getCar().getDrivers());
+        System.out.println(post.getUser());
+        System.out.println(post.getImage().isEmpty());
     }
 }
 

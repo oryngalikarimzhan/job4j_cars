@@ -18,7 +18,9 @@ public class ModelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        Collection<Model> models = PsqlStore.instOf().findModelsByBrandId(Integer.parseInt(req.getParameter("id")));
+        Collection<Model> models = PsqlStore.instOf().findModelsByBrandIdAndCategoryId(
+                Integer.parseInt(req.getParameter("brandId")),
+                Integer.parseInt(req.getParameter("categoryId")));
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());

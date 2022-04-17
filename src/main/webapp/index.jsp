@@ -55,53 +55,61 @@
             <div class="row">
                 <div class="card" style="width: 100%">
                     <div class="card-header">
-                        Обьявления
+                        О Б Ь Я В Л Е Н И Я
                     </div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 450px">Фото</th>
-                                    <th scope="col" style="width: 200px">Характеристики</th>
+                                    <th scope="col" style="width: 200px">Автомобиль</th>
+                                    <th scope="col" style="width: 300px">Характеристики</th>
                                     <th scope="col" style="width: 300px">Описание</th>
                                     <th scope="col">Цена</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${posts}" var="post">
-                                    <tr>
-                                        <td>
-                                            <img src="<c:url value='/download.do?id=${post.id}'/>" width="100%"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="Марка - ${post.car.brand.name}"/>
-                                            <br>
-                                            <c:out value="Модель - ${post.car.model.name}"/>
-                                            <br>
-                                            <c:out value="Кузов - ${post.car.bodyType.name}"/>
-                                            <br>
-                                            <c:out value="Мотор - ${post.car.engine.name}"/>
-                                            <br>
-                                            <c:out value="Пробег - ${post.car.engine.mileage}км"/>
-                                            <br>
-                                            <c:out value="Обьем двигателя - ${post.car.engine.volume}см/куб"/>
-                                            <br>
-                                            <c:out value="Тип топлива - ${post.car.engine.fuelType}"/>
-                                            <br>
-                                            <c:out value="Год - ${post.car.assemblyYear}г"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${post.description}"/>
-                                            <br>
-                                            <c:out value="Продавец - ${post.user.email}"/>
-                                            <br>
-                                            <c:out value="Контакты - ${post.phone}"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${post.price}"/>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                            <c:forEach items="${posts}" var="post">
+                                <tr>
+                                    <td>
+                                        <c:out value="${post.car.brand.name} ${post.car.model.name}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="Категория - ${post.car.category.name}"/>
+                                        <br>
+                                        <c:out value="Кузов - ${post.car.bodyType.name}"/>
+                                        <br>
+                                        <c:out value="Мотор - ${post.car.engine.name}"/>
+                                        <br>
+                                        <c:out value="Пробег - ${post.car.engine.mileage} км"/>
+                                        <br>
+                                        <c:out value="Обьем двигателя - ${post.car.engine.volume} см/куб"/>
+                                        <br>
+                                        <c:out value="Тип топлива - ${post.car.engine.fuelType}"/>
+                                        <br>
+                                        <c:out value="Год - ${post.car.assemblyYear}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${post.description}"/>
+                                        <br>
+                                        <c:out value="Продавец - ${post.user.email}"/>
+                                        <br>
+                                        <c:out value="Контакты - ${post.phone}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${post.price}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <c:forEach items="${post.image}" var="image">
+                                            <img src="<c:url value='/download.do?id=${image}'/>" width="200px"/>
+                                        </c:forEach>
+                                        <br>
+                                        <br>
+                                        <br>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>

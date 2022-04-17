@@ -16,11 +16,14 @@ public interface Store {
     Car findCarById(int id);
     Car findBySN(String serialNumber);
 
+    Category findCategoryById(int id);
+    Collection<Category> findAllCategories();
+
     Brand findBrandById(int id);
-    Collection<Brand> findAllBrands();
+    Collection<Brand> findBrandsByCategoryId(int id);
 
     Model findModelById(int id);
-    Collection<Model> findModelsByBrandId(int id);
+    Collection<Model> findModelsByBrandIdAndCategoryId(int brandId, int categoryId);
 
     BodyType findBodyTypeById(int id);
 

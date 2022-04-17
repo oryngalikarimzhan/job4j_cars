@@ -1,8 +1,7 @@
 package ru.job4j.cars.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "brand")
@@ -12,10 +11,6 @@ public class Brand {
     private int id;
     private String name;
 
-    @Transient
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Model> models = new HashSet<>();
-
     public int getId() {
         return id;
     }
@@ -24,7 +19,25 @@ public class Brand {
         return name;
     }
 
-    public Set<Model> getModels() {
-        return models;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Brand brand = (Brand) o;
+        return id == brand.id && Objects.equals(name, brand.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{id=" + id + ", name='" + name + '\'' + '}';
     }
 }

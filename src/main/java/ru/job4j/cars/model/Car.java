@@ -20,6 +20,10 @@ public class Car {
     private String registrationNumber;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
@@ -32,6 +36,7 @@ public class Car {
     private BodyType bodyType;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(unique = true)
     private Engine engine;
 
     @Column(name = "assembly_year")
@@ -47,6 +52,7 @@ public class Car {
     public static Car of(
             String serialNumber,
             String registrationNumber,
+            Category category,
             Brand brand,
             Model model,
             BodyType bodyType,
@@ -57,6 +63,7 @@ public class Car {
         car.serialNumber = serialNumber;
         car.registrationNumber = registrationNumber;
         car.assemblyYear = assemblyYear;
+        car.category = category;
         car.brand = brand;
         car.model = model;
         car.bodyType = bodyType;
@@ -74,6 +81,10 @@ public class Car {
 
     public String getSerialNumber() {
         return serialNumber;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public Brand getBrand() {

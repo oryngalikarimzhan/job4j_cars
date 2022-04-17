@@ -26,39 +26,72 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            var category = document.querySelector('#category-selector');
+            var brand = document.querySelector('#brand-selector');
+            var noBrandChild = brand.children[0];
+            var model = document.querySelector('#model-selector');
+            var noModelChild = model.children[0];
+            var bodyType = document.querySelector('#body-type-selector');
+            var noBodyTypeChild = bodyType.children[0];
+
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/cars/brand.do',
+                url: 'http://localhost:8080/cars/category.do',
                 dataType: 'json'
-            }).done(function (brands) {
-                var brand = document.querySelector('#brand-selector');
-                for (let i = 0; i <= brands.length - 1; i++) {
+            }).done(function (categories) {
+                for (let i = 0; i <= categories.length - 1; i++) {
                     let option = document.createElement('option');
-                    option.value = brands[i].id;
-                    option.text = brands[i].name;
-                    brand.append(option);
+                    option.value = categories[i].id;
+                    option.text = categories[i].name;
+                    category.append(option);
                 }
             }).fail(function (err) {
                 console.log(err);
             });
+
+            document.getElementById('category-selector').addEventListener('change', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/cars/brand.do',
+                    data: {
+                        id: this.value
+                    },
+                    dataType: 'json'
+                }).done(function (brands) {
+                    brand.innerHTML = "";
+                    brand.append(noBrandChild);
+                    model.innerHTML = "";
+                    model.append(noModelChild);
+                    bodyType.innerHTML = "";
+                    bodyType.append(noBodyTypeChild);
+
+                    for (let i = 0; i <= brands.length - 1; i++) {
+                        let option = document.createElement('option');
+                        option.value = brands[i].id;
+                        option.text = brands[i].name;
+                        brand.append(option);
+                    }
+                }).fail(function (err) {
+                    console.log(err);
+                });
+            });
+
             document.getElementById('brand-selector').addEventListener('change', function() {
-                var model = document.querySelector('#model-selector');
-                var firstChild = model.children[0];
-                var body = document.querySelector('#body-type-selector');
-                var bodyChild = body.children[0];
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8080/cars/model.do',
                     data: {
-                        id: this.value
+                        brandId: this.value,
+                        categoryId: category.value
                     },
                     dataType: 'json',
                     async: false
                 }).done(function (models) {
                     model.innerHTML = "";
-                    model.append(firstChild);
-                    body.innerHTML = "";
-                    body.append(bodyChild);
+                    model.append(noModelChild);
+                    bodyType.innerHTML = "";
+                    bodyType.append(noBodyTypeChild);
+
                     for (let i = 0; i <= models.length - 1; i++) {
                         let option = document.createElement('option');
                         option.value = models[i].id;
@@ -69,9 +102,8 @@
                     console.log(err);
                 });
             });
+
             document.getElementById('model-selector').addEventListener('change', function() {
-                var body = document.querySelector('#body-type-selector');
-                var bodyChild = body.children[0];
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8080/cars/body.do',
@@ -81,13 +113,14 @@
                     dataType: 'json',
                     async: false
                 }).done(function (model) {
-                    body.innerHTML = "";
-                    body.append(bodyChild);
+                    bodyType.innerHTML = "";
+                    bodyType.append(noBodyTypeChild);
+
                     for (let i = 0; i <= model.bodyTypes.length - 1; i++) {
                         let option = document.createElement('option');
                         option.value = model.bodyTypes[i].id;
                         option.text = model.bodyTypes[i].name;
-                        body.append(option);
+                        bodyType.append(option);
                     }
                 }).fail(function (err) {
                     console.log(err);
@@ -121,11 +154,20 @@
             <div class="row">
                 <div class="card" style="width: 100%">
                     <div class="card-header">
-                        Новое обьявление
+                        Н О В О Е &nbsp; &nbsp; О Б Ь Я В Л Е Н И Е
                     </div>
                     <div class="card-body">
                         <form id="form-post" action="<%=request.getContextPath()%>/post.do"
                               method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="category-selector">Категория транспорта</label>
+                                <select class="form-control"
+                                        id="category-selector"
+                                        name="category"
+                                        title="Выберите категорию транспорта">
+                                    <option>---Не выбран---</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="brand-selector">Марка</label>
                                 <select class="form-control"
@@ -156,7 +198,7 @@
                                        class="form-control"
                                        name="year"
                                        id="car-year"
-                                       title="Введите год сборки автомобиля">
+                                       placeholder="YYYY">
                             </div>
                             <div class="form-group">
                                 <label>Пробег</label>
@@ -164,8 +206,7 @@
                                        class="form-control"
                                        name="mileage"
                                        id="mileage"
-                                       placeholder="В километрах"
-                                       title="Введите пробег автомобиля">
+                                       placeholder="В километрах">
                             </div>
                             <div class="form-group">
                                 <label>Обьем двигателя</label>
@@ -173,16 +214,17 @@
                                        class="form-control"
                                        name="volume"
                                        id="volume"
-                                       placeholder="В см/куб"
-                                       title="Введите обьем двигателя">
+                                       placeholder="В см/куб">
                             </div>
                             <div class="form-group">
-                                <label>Тип топлива</label>
-                                <input type="text"
-                                       class="form-control"
-                                       name="fuel"
-                                       id="fuel-type"
-                                       placeholder="Введите один вариантов: Бензин, Дизель, Газ">
+                                <label for="fuel-type-selector">Тип топлива</label>
+                                <select class="form-control" id="fuel-type-selector" name="fuel-type">
+                                    <option>---Не выбран---</option>
+                                    <option>Бензин</option>
+                                    <option>Дизель</option>
+                                    <option>Газ</option>
+                                    <option>Электричесво</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Модель двигателя</label>
@@ -190,7 +232,7 @@
                                        class="form-control"
                                        name="engine"
                                        id="engine-name"
-                                       value="Не известно">
+                                       placeholder="Опционально">
                             </div>
                             <div class="form-group">
                                 <label>VIN автомобиля</label>
@@ -219,14 +261,16 @@
                                 <input type="text"
                                        class="form-control"
                                        name="price"
-                                       id="price">
+                                       id="price"
+                                       placeholder="В тенге">
                             </div>
                             <div class="form-group">
                                 <label>Контакты</label>
                                 <input type="text"
                                        class="form-control"
                                        name="phone"
-                                       id="phone">
+                                       id="phone"
+                                       placeholder="8-XXX-XXXXXXX">
                             </div>
                             <div class="form-group">
                                 <label>Загрузить фото</label>

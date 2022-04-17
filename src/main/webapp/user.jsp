@@ -90,7 +90,8 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 180px">Характеристики</th>
+                                    <th scope="col" style="width: 150px">Автомобиль</th>
+                                    <th scope="col" style="width: 300px">Характеристики</th>
                                     <th scope="col" style="width: 300px">Описание</th>
                                     <th scope="col">Цена</th>
                                     <th scope="col">Статус</th>
@@ -101,21 +102,22 @@
                             <c:forEach items="${posts}" var="post">
                                 <tr>
                                     <td>
-                                        <c:out value="Марка - ${post.car.brand.name}"/>
-                                        <br>
-                                        <c:out value="Модель - ${post.car.model.name}"/>
+                                        <c:out value="${post.car.brand.name} ${post.car.model.name}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="Категория - ${post.car.category.name}"/>
                                         <br>
                                         <c:out value="Кузов - ${post.car.bodyType.name}"/>
                                         <br>
                                         <c:out value="Мотор - ${post.car.engine.name}"/>
                                         <br>
-                                        <c:out value="Пробег - ${post.car.engine.mileage}км"/>
+                                        <c:out value="Пробег - ${post.car.engine.mileage} км"/>
                                         <br>
-                                        <c:out value="Обьем двигателя - ${post.car.engine.volume}см/куб"/>
+                                        <c:out value="Обьем двигателя - ${post.car.engine.volume} см/куб"/>
                                         <br>
                                         <c:out value="Тип топлива - ${post.car.engine.fuelType}"/>
                                         <br>
-                                        <c:out value="Год - ${post.car.assemblyYear}г"/>
+                                        <c:out value="Год - ${post.car.assemblyYear}"/>
                                     </td>
                                     <td>
                                         <c:out value="${post.description}"/>
@@ -155,21 +157,28 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
+                                        <c:if test="${post.image.size() == 0}">
+                                            <a href='<c:url value="/photoUpload.jsp?imgName=${post.id}-1&postId=${post.id}"/>'>
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </c:if>
                                         <c:forEach items="${post.image}" var="image" varStatus="loop">
                                             <img src="<c:url value='/download.do?id=${image}'/>" width="200px"/>
                                             <a href='<c:url value="/photoDelete.do?img=${image}&postId=${post.id}"/>'>
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                             <c:if test="${loop.last}">
-                                                <c:set var="name" value="${fn:substringBefore(image, '.')}"/>
-                                                <c:set var="position" value="${fn:substringAfter(name, '-')}"/>
+                                                <c:set var="position" value="${fn:substringAfter(fn:substringBefore(image, '.'), '-')}"/>
                                                 <fmt:parseNumber var = "intPosition" type = "number" value = "${position}" />
                                                 <c:set var="nextPosition" value="${intPosition  + 1}"/>
-                                                <c:set var="nextImage"  value="${fn:replace(name, position, nextPosition)}"/>
+                                                <c:set var="positionAndType" value="${fn:substringAfter(image, '-')}"/>
+                                                <c:set var="frontName" value="${fn:substringBefore(image, positionAndType)}"/>
+                                                <c:set var="nextPositionAndType"  value="${fn:replace(positionAndType, position, nextPosition)}"/>
+                                                <c:set var="nextImage"  value="${frontName}${nextPositionAndType}"/>
                                                 <a href='<c:url value="/photoUpload.jsp?imgName=${nextImage}&postId=${post.id}"/>'>
-                                                <i class="fa fa-plus"></i>
-                                            </a>
+                                                    <i class="fa fa-plus"></i>
+                                                </a>
                                             </c:if>
                                         </c:forEach>
                                         <br>

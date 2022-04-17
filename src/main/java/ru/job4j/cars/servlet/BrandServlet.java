@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 public class BrandServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Collection<Brand> brandList = PsqlStore.instOf().findAllBrands();
-        resp.setContentType("application/json; charset=utf-8");
-        OutputStream output = resp.getOutputStream();
-        String json = GSON.toJson(brandList);
-        output.write(json.getBytes(StandardCharsets.UTF_8));
-        output.flush();
-        output.close();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("UTF-8");
+        Collection<Brand> brands = PsqlStore.instOf().findBrandsByCategoryId(Integer.parseInt(req.getParameter("id")));
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        writer.println(GSON.toJson(brands));
+        writer.flush();
+        writer.close();
     }
 }

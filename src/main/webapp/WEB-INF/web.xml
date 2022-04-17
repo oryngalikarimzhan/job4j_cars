@@ -66,6 +66,10 @@
     <servlet-name>BodyServlet</servlet-name>
     <servlet-class>ru.job4j.cars.servlet.BodyServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CategoryServlet</servlet-name>
+    <servlet-class>ru.job4j.cars.servlet.CategoryServlet</servlet-class>
+  </servlet>
 
 
   <servlet-mapping>
@@ -123,5 +127,9 @@
   <servlet-mapping>
     <servlet-name>BodyServlet</servlet-name>
     <url-pattern>/body.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CategoryServlet</servlet-name>
+    <url-pattern>/category.do</url-pattern>
   </servlet-mapping>
 </web-app>

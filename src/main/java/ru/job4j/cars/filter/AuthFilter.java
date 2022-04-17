@@ -21,6 +21,7 @@ public class AuthFilter implements Filter {
                 || uri.endsWith("download.do")
                 || uri.endsWith("brand.do")
                 || uri.endsWith("model.do")
+                || uri.endsWith("category.do")
         ) {
             chain.doFilter(sreq, sresp);
             return;

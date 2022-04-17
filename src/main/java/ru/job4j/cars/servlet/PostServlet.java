@@ -43,6 +43,7 @@ public class PostServlet extends HttpServlet {
                     Car.of(
                             serialNumber,
                             regNumber,
+                            PsqlStore.instOf().findCategoryById(Integer.parseInt(req.getParameter("category"))),
                             PsqlStore.instOf().findBrandById(Integer.parseInt(req.getParameter("brand"))),
                             PsqlStore.instOf().findModelById(Integer.parseInt(req.getParameter("model"))),
                             PsqlStore.instOf().findBodyTypeById(Integer.parseInt(req.getParameter("body-type"))),
@@ -68,7 +69,7 @@ public class PostServlet extends HttpServlet {
         List<String> images = new ArrayList<>();
         for (Part part : req.getParts()) {
             String contentType = part.getContentType();
-            if ("image/jpeg".equals(contentType) || "image/png".equals(contentType)) {
+            if (contentType != null && contentType.contains("image")) {
                 String initialImageName = part.getSubmittedFileName();
                 String fileType = initialImageName.substring(initialImageName.lastIndexOf(".") + 1);
                 String newImageName = postId + "-" + i++ + "." + fileType;
