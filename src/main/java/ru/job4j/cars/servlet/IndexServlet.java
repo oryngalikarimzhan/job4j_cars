@@ -1,7 +1,7 @@
 package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.PostStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ArrayList<Post> posts = (ArrayList) PsqlStore.instOf().findAllActivePosts();
+        ArrayList<Post> posts = (ArrayList) PostStore.instOf().findAllActivePosts();
         req.setAttribute("posts", posts);
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }

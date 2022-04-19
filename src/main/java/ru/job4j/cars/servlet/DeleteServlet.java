@@ -1,6 +1,6 @@
 package ru.job4j.cars.servlet;
 
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.PostStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,10 +13,10 @@ public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        List<String> images = PsqlStore.instOf().findPostById(id).getImage();
+        List<String> images = PostStore.instOf().findPostById(id).getImage();
         req.setAttribute("images", images);
         req.getRequestDispatcher("/photoDelete.do").include(req, resp);
-        PsqlStore.instOf().deletePost(Integer.valueOf(id));
+        PostStore.instOf().deletePost(Integer.valueOf(id));
         resp.sendRedirect(req.getHeader("referer"));
     }
 }

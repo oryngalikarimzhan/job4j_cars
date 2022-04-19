@@ -2,7 +2,8 @@ package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.User;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.PostStore;
+import ru.job4j.cars.store.implementations.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ArrayList<Post> posts = (ArrayList) PsqlStore.instOf().findUserPostsById(
+        ArrayList<Post> posts = (ArrayList) PostStore.instOf().findUserPostsById(
                 ((User) req.getSession().getAttribute("user")).getId());
         req.setAttribute("posts", posts);
         req.getRequestDispatcher("user.jsp").forward(req, resp);

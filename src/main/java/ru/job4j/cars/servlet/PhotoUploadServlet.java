@@ -5,7 +5,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.PostStore;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -44,9 +44,9 @@ public class PhotoUploadServlet extends HttpServlet {
                     }
                     String postId = req.getParameter("id");
                     if (postId != null) {
-                        Post post = PsqlStore.instOf().findPostById(Integer.parseInt(postId));
+                        Post post = PostStore.instOf().findPostById(Integer.parseInt(postId));
                         post.addImage(newName);
-                        PsqlStore.instOf().save(post);
+                        PostStore.instOf().save(post);
                     }
                 }
             }

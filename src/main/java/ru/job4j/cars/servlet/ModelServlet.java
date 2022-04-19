@@ -3,7 +3,7 @@ package ru.job4j.cars.servlet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.cars.model.Model;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.ModelStore;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class ModelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        Collection<Model> models = PsqlStore.instOf().findModelsByBrandIdAndCategoryId(
+        Collection<Model> models = ModelStore.instOf().findModelsByBrandIdAndCategoryId(
                 Integer.parseInt(req.getParameter("brandId")),
                 Integer.parseInt(req.getParameter("categoryId")));
         resp.setContentType("application/json");

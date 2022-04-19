@@ -1,7 +1,7 @@
 package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.User;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,9 +19,9 @@ public class RegServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String email = req.getParameter("email");
-        User user = PsqlStore.instOf().findByEmail(email);
+        User user = UserStore.instOf().findByEmail(email);
         if (user == null) {
-            PsqlStore.instOf().save(
+            UserStore.instOf().save(
                    User.of(req.getParameter("name"), email, req.getParameter("password"))
             );
             req.setAttribute("message", "Вы успешно зарегистрированы");

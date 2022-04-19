@@ -1,7 +1,7 @@
 package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.*;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -29,24 +29,24 @@ public class PostServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String serialNumber = req.getParameter("serial-number");
         String regNumber = req.getParameter("reg-number");
-        Engine engine = PsqlStore.instOf().save(
+        Engine engine = EngineStore.instOf().save(
                 Engine.of(
                         req.getParameter("engine"),
                         Integer.parseInt(req.getParameter("mileage")),
                         Integer.parseInt(req.getParameter("volume")),
-                        req.getParameter("fuel")
+                        req.getParameter("fuel-type")
                 )
         );
-        Car car = PsqlStore.instOf().findBySN(serialNumber);
+        Car car = CarStore.instOf().findBySN(serialNumber);
         if (car == null) {
-            car = PsqlStore.instOf().save(
+            car = CarStore.instOf().save(
                     Car.of(
                             serialNumber,
                             regNumber,
-                            PsqlStore.instOf().findCategoryById(Integer.parseInt(req.getParameter("category"))),
-                            PsqlStore.instOf().findBrandById(Integer.parseInt(req.getParameter("brand"))),
-                            PsqlStore.instOf().findModelById(Integer.parseInt(req.getParameter("model"))),
-                            PsqlStore.instOf().findBodyTypeById(Integer.parseInt(req.getParameter("body-type"))),
+                            CategoryStore.instOf().findCategoryById(Integer.parseInt(req.getParameter("category"))),
+                            BrandStore.instOf().findBrandById(Integer.parseInt(req.getParameter("brand"))),
+                            ModelStore.instOf().findModelById(Integer.parseInt(req.getParameter("model"))),
+                            BodyTypeStore.instOf().findBodyTypeById(Integer.parseInt(req.getParameter("body-type"))),
                             engine,
                             req.getParameter("year")
                     )
@@ -55,7 +55,7 @@ public class PostServlet extends HttpServlet {
             car.setEngine(engine);
             car.setRegistrationNumber(regNumber);
         }
-        Post post = PsqlStore.instOf().save(
+        Post post = PostStore.instOf().save(
             Post.of(
                     req.getParameter("description"),
                     Integer.parseInt(req.getParameter("price")),
@@ -79,7 +79,7 @@ public class PostServlet extends HttpServlet {
         }
         if (!images.isEmpty()) {
             images.forEach(image -> post.addImage(image));
-            PsqlStore.instOf().save(post);
+            PostStore.instOf().save(post);
         }
         resp.sendRedirect(req.getContextPath() + "/user.do");
     }

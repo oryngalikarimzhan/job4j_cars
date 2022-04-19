@@ -1,7 +1,7 @@
 package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.User;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +19,7 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = PsqlStore.instOf().findByEmail(req.getParameter("email"));
+        User user = UserStore.instOf().findByEmail(req.getParameter("email"));
         if (user != null && user.getPassword().equals(req.getParameter("password"))) {
             HttpSession sc = req.getSession();
             sc.setAttribute("user", user);

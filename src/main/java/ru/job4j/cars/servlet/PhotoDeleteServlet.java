@@ -1,7 +1,7 @@
 package ru.job4j.cars.servlet;
 
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.store.PsqlStore;
+import ru.job4j.cars.store.implementations.PostStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,9 +21,9 @@ public class PhotoDeleteServlet extends HttpServlet {
             List<String> images = (List<String>) req.getAttribute("images");
 
             if (postId != null) {
-                Post post = PsqlStore.instOf().findPostById(Integer.parseInt(postId));
+                Post post = PostStore.instOf().findPostById(Integer.parseInt(postId));
                 post.deleteImage(name);
-                PsqlStore.instOf().save(post);
+                PostStore.instOf().save(post);
             }
             if (name != null) {
                 deleteFile(name);
